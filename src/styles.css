@@ -71,9 +71,25 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.875rem;
+  --background: oklch(0.985 0.008 95);
+  --foreground: oklch(0.24 0.03 250);
+  --brand: oklch(0.52 0.12 190);
+  --brand-foreground: oklch(0.99 0.005 190);
+  --gold: oklch(0.79 0.15 82);
+  --gold-foreground: oklch(0.26 0.05 60);
+  --slate-panel: oklch(0.26 0.028 250);
+  --slate-panel-foreground: oklch(0.95 0.01 250);
+  --success: oklch(0.62 0.15 150);
+  --gradient-hero: linear-gradient(
+    135deg,
+    oklch(0.3 0.04 250) 0%,
+    oklch(0.42 0.09 200) 55%,
+    oklch(0.6 0.13 120) 100%
+  );
+  --gradient-gold: linear-gradient(135deg, oklch(0.84 0.14 90), oklch(0.72 0.16 62));
+  --shadow-soft: 0 1px 2px oklch(0.24 0.03 250 / 6%), 0 12px 32px -14px oklch(0.24 0.03 250 / 22%);
+  --shadow-glow: 0 0 0 1px oklch(0.79 0.15 82 / 35%), 0 14px 40px -12px oklch(0.79 0.15 82 / 45%);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);

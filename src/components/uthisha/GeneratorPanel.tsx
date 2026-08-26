@@ -1,40 +1,38 @@
 import { useState } from "react";
-import { Copy, Sparkles } from "lucide-react";
+import { Check, Copy, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { MODES, type ModeKey } from "./types";
+import { COACHING, TONES, getDraft, type LangKey, type Tone } from "./content";
 import { cn } from "@/lib/utils";
 
-const TONES = ["Professional", "Friendly", "Firm but polite", "Ubuntu warm"];
+interface Props {
+  mode: ModeKey;
+  language: LangKey;
+  codeSwitch: boolean;
+}
 
-const DRAFTS: Record<ModeKey, string> = {
-  smme: `Sawubona Mr Dlamini 👋
+export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
+  const [tone, setTone] = useState<Tone>(TONES[0]);
+  const [brief, setBrief] = useState("");
+  const [draft, setDraft] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-Hope you are well. Ngiyabonga for your order last week — the 20 crates arrived safely and the customers loved them.
-
-I would like to place a repeat order of 30 crates for Friday delivery. Please confirm the total and whether the R150 delivery fee still applies.
-
-Ngiyabonga kakhulu,
-Nomsa — Nomsa's Fresh Produce`,
-  graduate: `Good day Ms Khumalo
-
-Thank you for taking the time to review my application for the Junior Data Analyst role.
-
-I completed my BCom (Information Systems) in 2025 and built a sales dashboard that cut a small retailer's stock-check time by 40%. I would love the chance to bring that same practical energy to your team.
-
-I am available for an interview at any time this week.
-
-Kind regards,
-Sipho Mahlangu`,
-};
-
-export function GeneratorPanel({ mode }: { mode: ModeKey }) {
-  const [tone, setTone] = useState(TONES[0]);
+  const generate = () => {
+    setLoading(true);
+    window.setTimeout(() => {
+      setDraft(getDraft(mode, language, tone, codeSwitch, brief));
+      setLoading(false);
+    }, 1000);
+  };
 
   const copy = async () => {
+    if (!draft.trim()) return;
     try {
-      await navigator.clipboard.writeText(DRAFTS[mode]);
-      toast.success("Draft copied to clipboard");
+      await navigator.clipboard.writeText(draft);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Couldn't copy — please select the text manually");
     }
@@ -56,6 +54,8 @@ export function GeneratorPanel({ mode }: { mode: ModeKey }) {
         <Textarea
           id="brief"
           rows={5}
+          value={brief}
+          onChange={(e) => setBrief(e.target.value)}
           className="mt-3 resize-none rounded-2xl bg-secondary/60"
           placeholder={
             mode === "smme"
@@ -85,10 +85,21 @@ export function GeneratorPanel({ mode }: { mode: ModeKey }) {
 
         <button
           type="button"
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[image:var(--gradient-gold)] px-6 py-3.5 font-display text-sm font-bold text-gold-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 sm:w-auto"
+          onClick={generate}
+          disabled={loading}
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[image:var(--gradient-gold)] px-6 py-3.5 font-display text-sm font-bold text-gold-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70 sm:w-auto"
         >
-          <Sparkles className="h-4 w-4" />
-          Generate Draft
+          {loading ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Uthisha is writing…
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4" />
+              Generate Draft
+            </>
+          )}
         </button>
       </section>
 
@@ -96,31 +107,44 @@ export function GeneratorPanel({ mode }: { mode: ModeKey }) {
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
           <div className="min-w-0">
             <h2 className="font-display truncate text-base font-bold">Your draft</h2>
-            <p className="truncate text-xs text-muted-foreground">{tone} tone · {MODES[mode].label}</p>
+            <p className="truncate text-xs text-muted-foreground">
+              {tone} · {MODES[mode].label} · editable
+            </p>
           </div>
           <button
             type="button"
             onClick={copy}
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors hover:bg-secondary"
+            disabled={!draft.trim()}
+            className={cn(
+              "inline-flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors hover:bg-secondary disabled:opacity-50",
+              copied && "border-success/50 bg-success/10 text-success",
+            )}
           >
-            <Copy className="h-3.5 w-3.5" />
-            Copy
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? "✓ Copied!" : "Copy"}
           </button>
         </div>
-        <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-secondary/60 p-5 font-sans text-sm leading-relaxed text-foreground">
-          {DRAFTS[mode]}
-        </pre>
+
+        {draft ? (
+          <Textarea
+            aria-label="Editable draft message"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            rows={14}
+            className="mt-4 rounded-2xl bg-secondary/60 font-sans text-sm leading-relaxed"
+          />
+        ) : (
+          <p className="mt-4 rounded-2xl border border-dashed bg-secondary/40 p-8 text-center text-sm text-muted-foreground">
+            Your draft will appear here — and you'll be able to edit every word before copying.
+          </p>
+        )}
       </section>
 
       <aside className="rounded-3xl border border-gold/40 bg-gold/12 p-5">
         <p className="font-display text-sm font-bold text-gold-foreground">
           💡 Uthisha's Coaching Corner
         </p>
-        <p className="mt-2 text-xs leading-relaxed text-gold-foreground/85">
-          {mode === "smme"
-            ? "Always confirm price and delivery date in writing — it protects your cash flow when a supplier forgets."
-            : "Open with the value you created, not the degree you hold. Numbers make recruiters slow down and read."}
-        </p>
+        <p className="mt-2 text-xs leading-relaxed text-gold-foreground/85">{COACHING[tone]}</p>
       </aside>
     </div>
   );

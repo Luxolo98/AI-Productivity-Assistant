@@ -42,9 +42,11 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [view, setView] = useState<ViewKey>("dashboard");
   const [mode, setMode] = useState<ModeKey>("smme");
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState<LangKey>("en");
   const [codeSwitch, setCodeSwitch] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const api = useTasks(mode);
+
 
   const select = (next: ViewKey) => {
     setView(next);

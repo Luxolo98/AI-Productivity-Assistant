@@ -33,7 +33,7 @@ export function DashboardPanel({ mode, language, codeSwitch, api, onNavigate }: 
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_1.2fr]">
-        <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+        <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
           <h2 className="font-display text-base font-bold">Today's checklist</h2>
           <p className="mt-1 text-xs text-muted-foreground">Tailored to your active mode</p>
           <div className="mt-5 flex items-center gap-5">

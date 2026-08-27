@@ -47,7 +47,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
         </p>
       </header>
 
-      <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+      <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
         <label htmlFor="brief" className="text-sm font-semibold">
           What must the message say?
         </label>
@@ -103,7 +103,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
         </button>
       </section>
 
-      <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+      <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
           <div className="min-w-0">
             <h2 className="font-display truncate text-base font-bold">Your draft</h2>

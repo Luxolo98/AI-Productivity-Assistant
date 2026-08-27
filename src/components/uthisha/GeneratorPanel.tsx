@@ -87,7 +87,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
           type="button"
           onClick={generate}
           disabled={loading}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[image:var(--gradient-gold)] px-6 py-3.5 font-display text-sm font-bold text-gold-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70 sm:w-auto"
+          className="btn-sunset mt-6 inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 font-display text-sm disabled:opacity-70 sm:w-auto"
         >
           {loading ? (
             <>

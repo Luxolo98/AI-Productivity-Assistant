@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, Copy, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { Confetti } from "./Confetti";
 import { MODES, type ModeKey } from "./types";
 import { COACHING, TONES, getDraft, type LangKey, type Tone } from "./content";
 import { cn } from "@/lib/utils";
@@ -18,13 +19,21 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [burst, setBurst] = useState(0);
 
   const generate = () => {
     setLoading(true);
+    setVerified(false);
     window.setTimeout(() => {
       setDraft(getDraft(mode, language, tone, codeSwitch, brief));
       setLoading(false);
     }, 1000);
+  };
+
+  const toggleVerified = (next: boolean) => {
+    setVerified(next);
+    if (next) setBurst((b) => b + 1);
   };
 
   const copy = async () => {
@@ -47,7 +56,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
         </p>
       </header>
 
-      <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+      <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
         <label htmlFor="brief" className="text-sm font-semibold">
           What must the message say?
         </label>
@@ -87,7 +96,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
           type="button"
           onClick={generate}
           disabled={loading}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[image:var(--gradient-gold)] px-6 py-3.5 font-display text-sm font-bold text-gold-foreground shadow-[var(--shadow-glow)] transition-transform hover:-translate-y-0.5 disabled:translate-y-0 disabled:opacity-70 sm:w-auto"
+          className="btn-sunset mt-6 inline-flex w-full items-center justify-center gap-2 px-6 py-3.5 font-display text-sm disabled:opacity-70 sm:w-auto"
         >
           {loading ? (
             <>
@@ -103,7 +112,7 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
         </button>
       </section>
 
-      <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+      <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
         <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 sm:flex sm:justify-between">
           <div className="min-w-0">
             <h2 className="font-display truncate text-base font-bold">Your draft</h2>
@@ -138,9 +147,32 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
             Your draft will appear here — and you'll be able to edit every word before copying.
           </p>
         )}
+
+        <div className="mt-5 rounded-2xl border-2 border-dashed border-border bg-secondary/40 p-4">
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              checked={verified}
+              disabled={!draft.trim()}
+              onChange={(e) => toggleVerified(e.target.checked)}
+              className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded-md accent-[oklch(0.62_0.15_150)] ring-offset-2 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed"
+            />
+            <span className="text-sm font-bold leading-relaxed text-foreground">
+              I have personally read, edited, and verified this draft for factual accuracy and
+              cultural respect.
+            </span>
+          </label>
+          {verified && (
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-success px-4 py-2 font-display text-sm font-bold text-primary-foreground shadow-md">
+              ✓ Verified &amp; Approved!
+            </p>
+          )}
+        </div>
       </section>
 
-      <aside className="rounded-3xl border border-gold/40 bg-gold/12 p-5">
+      <Confetti trigger={burst} />
+
+      <aside className="rounded-3xl border border-gold/40 bg-gradient-to-br from-gold/25 to-accent/40 p-5 shadow-sm transition-shadow hover:shadow-md">
         <p className="font-display text-sm font-bold text-gold-foreground">
           💡 Uthisha's Coaching Corner
         </p>

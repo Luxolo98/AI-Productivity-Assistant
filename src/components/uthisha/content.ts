@@ -212,3 +212,22 @@ export function getReply(message: string) {
   if (hit) return hit.reply;
   return `Good question — let's break it down 🙌\n\nTell me a bit more about your situation and I'll explain it with a real example. In the meantime, try one of the quick starts below: profit vs revenue, prompt engineering, or interview prep. Kancane kancane, siyafika.`;
 }
+
+export const DISCLAIMERS: Record<LangKey, { title: string; body: string }> = {
+  en: {
+    title: "Translation Safeguard",
+    body: "While Uthisha AI strives for cultural accuracy, AI software can occasionally hallucinate or miss corporate nuances. Always verify professional documents before sending.",
+  },
+  zu: {
+    title: "Isixwayiso",
+    body: "Nakuba u-Uthisha AI ezama ukuhumusha ngendlela eyiyo, i-AI ingaphuthelwa yimiqondo ethile yamasiko. Sicela uhlole yonke imibhalo ngaphambi kokuyisebenzisa.",
+  },
+  xh: {
+    title: "Isilumkiso",
+    body: "Nakuba u-Uthisha AI ezama ukukhombisa ukunyaniseka, i-AI ingasilela kwiintonas zomthonyama. Hlola yonke imibhalo phambi kokuba uyithumele.",
+  },
+  st: {
+    title: "Tlhokomelo",
+    body: "Leha Uthisha AI a leka ho fetolela hantle, AI e ka lahleheloa ke moelelo oa setso. Ka kopo, hlahloba melaetsa eohle pele u e sebelisa.",
+  },
+};

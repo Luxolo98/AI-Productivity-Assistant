@@ -1,7 +1,7 @@
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { AlertTriangle, ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { ProgressRing } from "./ProgressRing";
 import { MODES, type ModeKey, type ViewKey } from "./types";
-import { progressBanner, type LangKey } from "./content";
+import { DISCLAIMERS, progressBanner, type LangKey } from "./content";
 import type { TasksApi } from "./useTasks";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +33,7 @@ export function DashboardPanel({ mode, language, codeSwitch, api, onNavigate }: 
       </section>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_1.2fr]">
-        <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+        <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
           <h2 className="font-display text-base font-bold">Today's checklist</h2>
           <p className="mt-1 text-xs text-muted-foreground">Tailored to your active mode</p>
           <div className="mt-5 flex items-center gap-5">
@@ -78,6 +78,25 @@ export function DashboardPanel({ mode, language, codeSwitch, api, onNavigate }: 
           />
         </div>
       </div>
+
+      <footer>
+        <section
+          role="note"
+          className="flex gap-4 rounded-3xl border-2 border-gold/60 bg-gradient-to-br from-gold/20 to-accent/40 p-5 shadow-sm transition-shadow hover:shadow-md"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-gold text-gold-foreground">
+            <AlertTriangle className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <p className="font-display text-sm font-bold text-gold-foreground">
+              ⚠️ {DISCLAIMERS[language].title}
+            </p>
+            <p className="mt-1.5 text-xs font-medium leading-relaxed text-gold-foreground">
+              {DISCLAIMERS[language].body}
+            </p>
+          </div>
+        </section>
+      </footer>
     </div>
   );
 }

@@ -35,7 +35,7 @@ export function PlannerPanel({ mode, language, codeSwitch, api }: Props) {
         </p>
       </header>
 
-      <section className="grid gap-6 rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)] sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
+      <section className="grid gap-6 rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
         <ProgressRing done={done} total={total} size={148} />
         <div className="min-w-0">
           <h2 className="font-display text-base font-bold">Today's progress</h2>
@@ -53,7 +53,7 @@ export function PlannerPanel({ mode, language, codeSwitch, api }: Props) {
         </div>
       </section>
 
-      <section className="rounded-3xl border bg-card p-6 shadow-[var(--shadow-soft)]">
+      <section className="rounded-3xl border bg-gradient-to-br from-card to-secondary/40 p-6 shadow-sm transition-shadow hover:shadow-md">
         <h2 className="font-display text-base font-bold">Checklist</h2>
         <ul className="mt-4 space-y-2">
           {tasks.map((task) => (

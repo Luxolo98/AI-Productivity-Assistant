@@ -18,13 +18,21 @@ export function GeneratorPanel({ mode, language, codeSwitch }: Props) {
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [burst, setBurst] = useState(0);
 
   const generate = () => {
     setLoading(true);
+    setVerified(false);
     window.setTimeout(() => {
       setDraft(getDraft(mode, language, tone, codeSwitch, brief));
       setLoading(false);
     }, 1000);
+  };
+
+  const toggleVerified = (next: boolean) => {
+    setVerified(next);
+    if (next) setBurst((b) => b + 1);
   };
 
   const copy = async () => {

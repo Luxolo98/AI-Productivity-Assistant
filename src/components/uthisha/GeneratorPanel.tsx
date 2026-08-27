@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, Copy, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { Confetti } from "./Confetti";
 import { MODES, type ModeKey } from "./types";
 import { COACHING, TONES, getDraft, type LangKey, type Tone } from "./content";
 import { cn } from "@/lib/utils";

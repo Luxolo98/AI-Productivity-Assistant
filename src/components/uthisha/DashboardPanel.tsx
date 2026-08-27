@@ -1,14 +1,21 @@
 import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { ProgressRing } from "./ProgressRing";
 import { MODES, type ModeKey, type ViewKey } from "./types";
+import { progressBanner, type LangKey } from "./content";
+import type { TasksApi } from "./useTasks";
+import { cn } from "@/lib/utils";
 
 interface Props {
   mode: ModeKey;
+  language: LangKey;
+  codeSwitch: boolean;
+  api: TasksApi;
   onNavigate: (view: ViewKey) => void;
 }
 
-export function DashboardPanel({ mode, onNavigate }: Props) {
+export function DashboardPanel({ mode, language, codeSwitch, api, onNavigate }: Props) {
   const config = MODES[mode];
+  const { done, total, pct } = api;
 
   return (
     <div className="space-y-6">
@@ -30,11 +37,18 @@ export function DashboardPanel({ mode, onNavigate }: Props) {
           <h2 className="font-display text-base font-bold">Today's checklist</h2>
           <p className="mt-1 text-xs text-muted-foreground">Tailored to your active mode</p>
           <div className="mt-5 flex items-center gap-5">
-            <ProgressRing done={2} total={4} />
+            <ProgressRing done={done} total={total} />
             <div className="min-w-0 space-y-2 text-sm">
-              <p className="font-semibold">2 of 4 tasks done</p>
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                Halfway there — finish two more and you close the day strong.
+              <p className="font-semibold">
+                {done} of {total} tasks done
+              </p>
+              <p
+                className={cn(
+                  "text-xs font-bold leading-relaxed",
+                  pct >= 100 ? "text-success" : pct >= 50 ? "text-primary" : "text-gold-foreground",
+                )}
+              >
+                {progressBanner(pct, language, codeSwitch)}
               </p>
               <button
                 type="button"

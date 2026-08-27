@@ -6,6 +6,8 @@ import { DashboardPanel } from "@/components/uthisha/DashboardPanel";
 import { GeneratorPanel } from "@/components/uthisha/GeneratorPanel";
 import { PlannerPanel } from "@/components/uthisha/PlannerPanel";
 import { ChatPanel } from "@/components/uthisha/ChatPanel";
+import { useTasks } from "@/components/uthisha/useTasks";
+import type { LangKey } from "@/components/uthisha/content";
 import { LANGUAGES, MODES, NAV_ITEMS, type ModeKey, type ViewKey } from "@/components/uthisha/types";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -113,7 +115,7 @@ function Index() {
               ))}
             </div>
 
-            <Select value={language} onValueChange={setLanguage}>
+            <Select value={language} onValueChange={(v) => setLanguage(v as LangKey)}>
               <SelectTrigger className="h-9 w-[9.5rem] rounded-full bg-secondary/60 text-xs">
                 <SelectValue />
               </SelectTrigger>
@@ -137,10 +139,24 @@ function Index() {
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {NAV_ITEMS.find((n) => n.key === view)?.label}
           </p>
-          {view === "dashboard" && <DashboardPanel mode={mode} onNavigate={setView} />}
-          {view === "generator" && <GeneratorPanel mode={mode} />}
-          {view === "planner" && <PlannerPanel mode={mode} />}
-          {view === "chat" && <ChatPanel mode={mode} />}
+          {view === "dashboard" && (
+            <DashboardPanel
+              mode={mode}
+              language={language}
+              codeSwitch={codeSwitch}
+              api={api}
+              onNavigate={setView}
+            />
+          )}
+          {view === "generator" && (
+            <GeneratorPanel mode={mode} language={language} codeSwitch={codeSwitch} />
+          )}
+          {view === "planner" && (
+            <PlannerPanel mode={mode} language={language} codeSwitch={codeSwitch} api={api} />
+          )}
+          {view === "chat" && (
+            <ChatPanel mode={mode} language={language} codeSwitch={codeSwitch} />
+          )}
         </main>
       </div>
     </div>

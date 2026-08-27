@@ -173,3 +173,33 @@
   font-family: var(--font-display);
   letter-spacing: -0.01em;
 }
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--drift, 12px), 105vh, 0) rotate(720deg);
+  }
+}
+
+.confetti-piece {
+  animation-name: confetti-fall;
+  animation-timing-function: cubic-bezier(0.25, 0.6, 0.4, 1);
+  animation-fill-mode: forwards;
+}
+
+@utility btn-sunset {
+  background-image: linear-gradient(to right, oklch(0.79 0.15 82), oklch(0.65 0.18 45));
+  color: oklch(0.99 0.01 90);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: all 200ms ease;
+  &:hover {
+    background-image: linear-gradient(to right, oklch(0.72 0.16 78), oklch(0.57 0.18 42));
+    box-shadow: var(--shadow-glow);
+  }
+}

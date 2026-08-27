@@ -78,6 +78,25 @@ export function DashboardPanel({ mode, language, codeSwitch, api, onNavigate }: 
           />
         </div>
       </div>
+
+      <footer>
+        <section
+          role="note"
+          className="flex gap-4 rounded-3xl border-2 border-gold/60 bg-gradient-to-br from-gold/20 to-accent/40 p-5 shadow-sm transition-shadow hover:shadow-md"
+        >
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-gold text-gold-foreground">
+            <AlertTriangle className="h-5 w-5" />
+          </span>
+          <div className="min-w-0">
+            <p className="font-display text-sm font-bold text-gold-foreground">
+              ⚠️ {DISCLAIMERS[language].title}
+            </p>
+            <p className="mt-1.5 text-xs font-medium leading-relaxed text-gold-foreground">
+              {DISCLAIMERS[language].body}
+            </p>
+          </div>
+        </section>
+      </footer>
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { ArrowRight, MessageCircle, Sparkles } from "lucide-react";
+import { AlertTriangle, ArrowRight, MessageCircle, Sparkles } from "lucide-react";
 import { ProgressRing } from "./ProgressRing";
 import { MODES, type ModeKey, type ViewKey } from "./types";
-import { progressBanner, type LangKey } from "./content";
+import { DISCLAIMERS, progressBanner, type LangKey } from "./content";
 import type { TasksApi } from "./useTasks";
 import { cn } from "@/lib/utils";
 
